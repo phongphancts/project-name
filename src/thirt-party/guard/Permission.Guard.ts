@@ -20,7 +20,7 @@ export class PermissionsGuard implements CanActivate {
             context.getClass(),
         ]);
 
-        const requiredPermissions: Permissions[] = this.reflector.getAllAndOverride<Permissions[]>(PERMISSIONS_KEY, [
+        const requiredPermissions= this.reflector.getAllAndOverride<Permissions>(PERMISSIONS_KEY, [
             context.getHandler(),
             context.getClass(),
         ]);
@@ -36,13 +36,18 @@ export class PermissionsGuard implements CanActivate {
         const request = context.switchToHttp().getRequest();
         const user = request.user
         const role_idUser = user.role_id
-
-        const userPermissions = await this.prisma.getUserPermissions(role_idUser)
-   
-        const allowed = userPermissions.some( up => up.some(allow => 
-            requiredPermissions.includes(allow.permission_id) && requiredActions.includes(allow.action_id)))
-            
-         return allowed;
         
+        const permission_id = requiredPermissions[0];
+        const action_id = requiredActions[0];
+
+
+        const userPermissions = await this.prisma.getUserPermissions2(role_idUser,permission_id,action_id)
+   
+
+        if (userPermissions.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

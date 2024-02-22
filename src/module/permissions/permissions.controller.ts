@@ -21,7 +21,7 @@ export class PermissionsController {
     @Permissions_Required(Permissions.CREATE)
     @Action_Required(Action.Permission)
     async acceptPermissions(@Body() acceptPerDto: acceptPermissionDto) {
-      return this.permissionsService.acceptPermission(acceptPerDto.role_id, acceptPerDto.permissions_id, acceptPerDto.action_id);
+      return this.permissionsService.acceptPermission(acceptPerDto);
     }
 
     @Post()
@@ -40,5 +40,10 @@ export class PermissionsController {
     @Action_Required(Action.Permission)
     async getUserPermissions(@Param('id') id: number) {
       return this.permissionsService.getUserPermissions(id);
+    }
+
+    @Get('get')
+    async getUserPermissions2() {
+      return this.permissionsService.getUserPermissions2(2,1,1);
     }
 }

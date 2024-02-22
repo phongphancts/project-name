@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { acceptPermissionDto } from './dto/accpetPer.dto';
 
 @Injectable()
 export class PermissionsService {
@@ -8,18 +9,25 @@ export class PermissionsService {
     constructor(private prisma: PrismaService){}
 
 
-    async acceptPermission(role_id: number, permission_id: number, action_id: number) {
-        
-        const accept =  await  this.prisma.rolePermission.create({
-            data: {
-                role_id: role_id,
-                permission_id: permission_id,
-                action_id: action_id
-            }
-        });
-        console.log(accept);
-    //     return accept
-    }
+    async acceptPermission(acceptPerDto: acceptPermissionDto) {
+      try {
+        const {role_id, permissions_id, action_id} = acceptPerDto
+          const accept = await this.prisma.rolePermission.create({
+              data: {
+                role_id,
+                permission_id: permissions_id,
+                action_id
+              }
+          });
+         
+          return accept;
+      } catch (error) {
+          // Handle any potential errors
+          console.error("Error accepting permission:", error);
+          throw error; // Rethrow the error or handle it accordingly
+      }
+  }
+  
 
     async deniedPermission(role_id: number, permission_id: number, action_id: number) {
         const denied =  await this.prisma.rolePermission.deleteMany({
@@ -52,22 +60,17 @@ export class PermissionsService {
         }
       }
 
-      async getUserPermissions2(role_id: number, permission_id: number, action_id: number) {
+      async getUserPermissions2(role_id: any, permission_id: any, action_id: any) {
         try {
-          const userPermissions = await this.prisma.role.findMany({
+          const userPermissions = await this.prisma.rolePermission .findMany({
             where: {
                 role_id,
-                roles_permissions: {
-                    every: {
-                        permission_id,
-                        action_id
-                    }
-                }
-            },
-            include: {
-                roles_permissions: true
-            },
+                permission_id,
+                action_id,
+            }
         });
+          
+          
           if(!userPermissions){
             return []
           }

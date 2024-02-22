@@ -14,6 +14,7 @@ import { AuthService } from './module/auth/auth.service';
 import { AuthModule } from './module/auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './thirt-party/stategy/token.stategy';
+import { PermissionsService } from './module/permissions/permissions.service';
 
 
 @Module({
@@ -21,6 +22,6 @@ import { JwtStrategy } from './thirt-party/stategy/token.stategy';
     PassportModule.register({ defaultStrategy: 'jwt' })
     ,UsersModule, RolesModule, RolesPermissionsModule, PermissionsModule, AuthModule, PassportModule],
   controllers: [AppController, RolesController, RolesPermissionsController, AuthController],
-  providers: [AppService, RolesService, PrismaService,AuthService, JwtStrategy],
+  providers: [AppService, RolesService, PrismaService,AuthService, JwtStrategy, PermissionsService],
 })
 export class AppModule {}
