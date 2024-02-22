@@ -30,10 +30,11 @@ export class RolesService {
     }
 
     
-    
     async deleteRole(where: Prisma.RoleWhereUniqueInput): Promise<Role> {
         return this.prisma.role.delete({
           where,
         });
       }
+
+
 }

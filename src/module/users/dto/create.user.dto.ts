@@ -13,6 +13,9 @@ export enum ROLE {
 
 export class CreateUserDto {
 
+
+    
+
     @ApiProperty({
         example: 'John Doe',
         description: 'Name of the user',
@@ -53,3 +56,29 @@ export class CreateUserDto {
     @IsIn(Object.values(ROLE), { message: 'Invalid role' })
     role_id: number
 }
+
+
+
+  
+  export class CreateUserResponseDataDto {
+    @ApiProperty()
+    code: string;
+  
+    @ApiProperty()
+    status: number;
+  
+    @ApiProperty()
+    message: string;
+  }
+
+
+  export class InternalServerErrorDto {
+    @ApiProperty()
+    code: string;
+  
+    @ApiProperty()
+    status: number;
+  
+    @ApiProperty()
+    message: string;
+  }

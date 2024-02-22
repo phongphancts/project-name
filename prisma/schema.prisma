@@ -35,11 +35,21 @@ model Permission {
   roles_permissions RolePermission[]
 }
 
+model Action{
+  action_id           Int          @id @default(autoincrement())
+  name_action         String 
+  roles_permissions RolePermission[]
+}
+
 model RolePermission {
   id           Int          @id @default(autoincrement())
   role         Role         @relation(fields: [role_id], references: [role_id])
   role_id      Int
   permission   Permission   @relation(fields: [permission_id], references: [permission_id])
   permission_id Int
+  action       Action       @relation(fields: [action_id], references: [action_id])
+  action_id     Int
 }
+
+
 

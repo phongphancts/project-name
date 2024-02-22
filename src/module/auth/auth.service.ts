@@ -32,8 +32,8 @@ export class AuthService {
         }
       
     
-         const accessToken = await this.generateAccessToken(email, dataUser.user_id, dataUser.role.name);
-         const refreshToken = await this.generateRefreshToken(email, dataUser.user_id,dataUser.role.name);
+         const accessToken = await this.generateAccessToken(email, dataUser.user_id, dataUser.role_id);
+         const refreshToken = await this.generateRefreshToken(email, dataUser.user_id,dataUser.role_id);
     
         
         return {
@@ -96,10 +96,10 @@ export class AuthService {
 
       
 
-      generateAccessToken(email: string, id: number, role_user: string): Promise<string> {
+      generateAccessToken(email: string, id: number, role_id: number): Promise<string> {
         const secret: string = process.env.accessToken
         const payload = {
-          role_user,
+          role_id,
           email,
           id
         };
@@ -111,10 +111,10 @@ export class AuthService {
           secret,
         });
       }
-      generateRefreshToken(email: string, id: number, role_user: string): Promise<string> {
+      generateRefreshToken(email: string, id: number, role_id: number): Promise<string> {
         const secret: string = process.env.refreshToken
         const payload = {
-          role_user,
+          role_id,
           email,
           id
         };
